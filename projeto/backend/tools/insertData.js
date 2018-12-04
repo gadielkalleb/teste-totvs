@@ -1,5 +1,4 @@
 const Posts = require('../api/posts/models/posts')
-
 const data = require('../data_json/MOCK_DATA.json')
 
 data.forEach(d => {

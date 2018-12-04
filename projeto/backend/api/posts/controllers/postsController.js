@@ -1,95 +1,100 @@
 const pagination = require('../../../tools/pagination')
 const axios = require('axios')
-let Posts;
+let Model;
 
-class PostsController {
+class ModelController {
   constructor(model) {
     if (model) {
-      Posts = model
+      Model = model
     }
     else console.log('no model provided')
   }
 
-  async getAll (req, res) {
-    try {
-      const results = await pagination(Posts, {}, req.query)
-      res.render('posts/index', { results })
-    } catch (error) {
-      res.render('posts/error')
-    }
+  getAll (req, res) {
+    pagination(Model, {}, req.query)
+      .then(results => res.send({ results }))
+      .catch(err => {
+        console.log(err)
+        res.status(500).send(`Internal server error - ${req.path}`);
+    })
   }
   
-  async novaProcess (req, res) {
-    
+  createOne (req, res) {
+    if (!req.body) {
+      return res.status(400).send('wrong request');
+    }
+
     try {
-      await Posts.create(req.body)
-      res.redirect('/posts')
+      Model.create(req.body).then(() => {
+
+      })
+      res.redirect('/Model')
     } catch (e) {
-      res.render('posts/nova', {
+      res.render('Model/nova', {
         errors: Object.keys(e.errors)
       })
     }
   }
   
-  async novaForm (req, res) {
-    res.render('posts/nova', {
+  novaForm (req, res) {
+    res.render('Model/nova', {
       errors: []
     })
   }
   
-  async excluir (req, res) {
-    await Posts.remove({
+  excluir (req, res) {
+    await Model.remove({
       _id: req.params.id
     })
     res.redirect('back')
   }
   
-  async editarProcess (req, res) {
+  editarProcess (req, res) {
     try {
-      await Posts.updateOne({ _id: req.params.id }, { $set: req.body })
+      await Model.updateOne({ _id: req.params.id }, { $set: req.body })
       res.redirect(`/info/${req.params.id}`)
     } catch (e) {
       console.log(e)
-      res.render('posts/editar', {
-        posts,
+      res.render('Model/editar', {
+        Model,
         errors: Object.keys(e.errors)
       })
     }
   }
   
-  async editarForm (req, res) {
-    const posts = await Posts.findOne({
+  editarForm (req, res) {
+    const Model = await Model.findOne({
       _id: req.params.id
     })
-    res.render('posts/editar', {
-      posts,
+    res.render('Model/editar', {
+      Model,
       
       errors: []
     })
   }
   
-  async info (req, res) {
+  info (req, res) {
     try {
-      const posts = await Posts.findOne({ _id: req.params.id })
-      const response = await axios.get(`http://www.omdbapi.com/?t=${posts.movie_title}&apikey=3d2b356f&plot=full`)
-      posts.imdbInfo = response.data
-      res.render('posts/info', {
-        posts
+      const Model = await Model.findOne({ _id: req.params.id })
+      const response = await axios.get(`http://www.omdbapi.com/?t=${Model.movie_title}&apikey=3d2b356f&plot=full`)
+      Model.imdbInfo = response.data
+      res.render('Model/info', {
+        Model
       })
     } catch (error) {
-      res.render('posts/error')
+      res.render('Model/error')
     }
   }
   
-  async addComentario (req, res) {
+  addComentario (req, res) {
     try {
-      await Posts.updateOne({ _id: req.params.id }, { $push: { comments: req.body } })
+      await Model.updateOne({ _id: req.params.id }, { $push: { comments: req.body } })
       res.redirect(`/info/${req.params.id}`)
     } catch(e) {
-      res.render('posts/error')
+      res.render('Model/error')
     }
   }
   
 }
 
-module.exports = PostsController
+module.exports = ModelController
