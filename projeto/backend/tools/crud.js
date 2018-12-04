@@ -1,4 +1,4 @@
-const pagination = require('./tools/pagination')
+const pagination = require('./pagination')
 class Crud {
   constructor() {
     this.Model = null;
@@ -7,6 +7,15 @@ class Crud {
   getAll (req, res) {
     pagination(this.Model, {}, req.query)
       .then(results => res.send({ results }))
+      .catch(err => {
+        console.log(err)
+        res.status(500).send(`Internal server error - ${req.path}`);
+    })
+  }
+
+  getOne (req, res) {
+    this.Model.find({ _id: req.params.id })
+      .then(result => res.send({ result }))
       .catch(err => {
         console.log(err)
         res.status(500).send(`Internal server error - ${req.path}`);

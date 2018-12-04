@@ -2,7 +2,7 @@ const axios = require('axios');
 const Crud = require('../../../tools/crud')
 
 class PostController extends Crud{
-  constructor(model) {
+  constructor (model) {
     super()
     this.Model = model
   }
@@ -31,7 +31,6 @@ class PostController extends Crud{
       res.status(500).send(`Internal server error - ${req.path}`);
     })
   }
-  
 }
 
 module.exports = PostController;

@@ -1,4 +1,4 @@
-const mongoose = require('../../../db/mongoDb')
+const mongoose = require('mongoose')
 const moment = require('moment')
 
 const PostSchema = mongoose.Schema({

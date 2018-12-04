@@ -6,12 +6,8 @@ const router = express.Router()
 
 
 router.get('/', postsController.getAll)
-router.get('/nova', postsController.novaForm)
-router.post('/nova', postsController.novaProcess)
-router.delete('/excluir/:id', postsController.excluir)
-router.get('/editar/:id', postsController.editarForm)
-router.post('/editar/:id', postsController.editarProcess)
-router.get('/info/:id', postsController.info)
-router.post('/info/:id', postsController.addComentario)
+router.get('/:id', postsController.getOne)
+router.delete('/:id', postsController.deleteOne)
+router.put('/:id', postsController.editOne)
 
 module.exports = router
