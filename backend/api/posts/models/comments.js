@@ -1,25 +1,25 @@
-const mongoose = require('mongoose')
-const moment = require('moment')
+const mongoose = require('mongoose');
+const moment = require('moment');
 
 const CommentsSchema = new mongoose.Schema({
   author: {
     type: String,
-    required: true
+    required: true,
   },
   content: {
     type: String,
-    required: true
+    required: true,
   },
   createdAt: {
     type: Date,
-    default: Date.now()
+    default: Date.now(),
   },
-})
+});
 
 CommentsSchema.virtual('criadoEm')
   .get(function () {
     return moment(this.createdAt).format('DD-MM-YYYY');
-  })
+  });
 
 
-module.exports = mongoose.model('comments', CommentsSchema)
+module.exports = mongoose.model('comments', CommentsSchema);
