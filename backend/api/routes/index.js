@@ -1,9 +1,9 @@
 const posts = require('./posts');
 const sobre = require('./sobre');
-const users = require('./users');
+const authors = require('./authors');
 
 module.exports = {
   posts,
   sobre,
-  users,
+  authors,
 };

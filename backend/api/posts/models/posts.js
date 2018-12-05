@@ -12,7 +12,7 @@ const PostSchema = new mongoose.Schema({
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
+    ref: 'authors',
   },
   movie_title: {
     type: String,

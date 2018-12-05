@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 
-const UsersSchema = new mongoose.Schema({
+const AuthorsSchema = new mongoose.Schema({
   userName: {
     type: String,
     required: true,
@@ -20,10 +20,10 @@ const UsersSchema = new mongoose.Schema({
   }],
 });
 
-UsersSchema.virtual('criadoEm')
+AuthorsSchema.virtual('criadoEm')
   .get(function () {
     return moment(this.createdAt).format('DD-MM-YYYY');
   });
 
 
-module.exports = mongoose.model('users', UsersSchema);
+module.exports = mongoose.model('authors', AuthorsSchema);

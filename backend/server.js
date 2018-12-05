@@ -1,16 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const exSession = require('express-session');
+const cors = require('cors');
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 const mongodb = require('./db');
-const { db } = require('./config');
+const { db, session, port } = require('./config');
 
 const loadData = require('./tools/insertData');
 
+const expressSession = exSession(session);
+
 const api = require('./api');
 
+app.use(cors());
+app.use(expressSession);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
