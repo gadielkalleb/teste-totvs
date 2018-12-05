@@ -14,10 +14,10 @@ const api = require('./api')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-loadData()
 
 app.use('/', api)
 app.listen(port, () => {
-  console.log('escutando app na porta ' + port+' acesse o link http://localhost:'+port)
+  console.log(`escutando app na porta ${port} acesse o link http://localhost:${port}`)
   mongodb.start()
+  loadData()
 })

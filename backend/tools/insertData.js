@@ -11,10 +11,12 @@ const mongodb = (db) => new Promise((resolve,reject) => {
 });
 
 module.exports = () => {
+  console.time('tempo de excução script insertData ')
   mongodb(db)
-    .then(mongo => {
+    .then(async mongo => {
       let posts = mongo.db().collection('posts');
-      if (posts.find().count() <= 0) {
+      if (await posts.find({}).count() <= 0) {
+        console.log('db vazia restaurando backup')
         _async.eachSeries(data, (reg, callback) => {
           posts.insertOne(reg, err => {
             if (err) {
@@ -24,9 +26,11 @@ module.exports = () => {
             }
           })
         })
+        console.log('load dos backup ok')
       } else {
         console.log('db já esta polulado não é necessario carregar backup')
       }
     })
     .catch(e => console.log('erro ao processar o loding de dados ', e))
+    console.timeEnd('tempo de excução script insertData ')
 }

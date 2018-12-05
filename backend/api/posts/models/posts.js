@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const moment = require('moment')
 
-const PostSchema = mongoose.Schema({
+const PostSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true
@@ -23,21 +23,8 @@ const PostSchema = mongoose.Schema({
     default: Date.now()
   },
   comments: [{
-    _id: {
-      type: mongoose.Schema.Types.ObjectId
-    },
-    author: {
-      type: String,
-      required: true
-    },
-    content: {
-      type: String,
-      required: true
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now()
-    },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'comments',
   }]
 })
 
