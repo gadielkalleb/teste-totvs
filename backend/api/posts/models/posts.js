@@ -11,8 +11,8 @@ const PostSchema = new mongoose.Schema({
     required: true,
   },
   author: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'users',
   },
   movie_title: {
     type: String,

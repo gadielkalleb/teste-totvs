@@ -7,5 +7,4 @@ const { posts, sobre } = require('./routes');
 router.use('/', posts);
 router.use('/sobre', sobre);
 
-
 module.exports = router;
