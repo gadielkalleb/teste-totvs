@@ -1,18 +1,22 @@
 const mongoose = require('mongoose');
-const { db } = require('../config');
 
 mongoose.Promise = require('bluebird');
 
 function MongooseStart() {}
 
-MongooseStart.prototype.start = () => {
+MongooseStart.prototype.start = (db) => {
   console.time('tempo de execução do mongoose');
-  mongoose.connect(db.url, db.options)
-    .then(() => console.log('Succeeded connected to Db!'))
-    .catch((err) => {
-      console.log('error connect mongoose', err);
+  return new Promise((resolve, reject) => {
+    mongoose.connect(db.url, db.options, (err) => {
+      if (err) {
+        console.log('error connect mongoose', err);
+        return reject(err);
+      }
+      console.log('Succeeded connected to Db!');
+      return resolve();
     });
-  console.timeEnd('tempo de execução do mongoose');
+    console.timeEnd('tempo de execução do mongoose');
+  });
 };
 
 module.exports = new MongooseStart();
