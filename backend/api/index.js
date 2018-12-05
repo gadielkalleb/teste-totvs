@@ -1,10 +1,11 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
 
-const { posts, sobre } = require('./routes')
+const router = express.Router();
 
-router.use('/', posts)
-router.use('/sobre', sobre)
+const { posts, sobre } = require('./routes');
+
+router.use('/', posts);
+router.use('/sobre', sobre);
 
 
-module.exports = router
+module.exports = router;

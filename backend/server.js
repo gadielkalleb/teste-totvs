@@ -1,23 +1,23 @@
-const express = require('express')
-const bodyParser = require('body-parser')
+const express = require('express');
+const bodyParser = require('body-parser');
 
-const app = express()
-const port = process.env.PORT || 3000
+const app = express();
+const port = process.env.PORT || 3000;
 
-const mongodb = require('./db')
+const mongodb = require('./db');
 
-const loadData = require('./tools/insertData')
+const loadData = require('./tools/insertData');
 // rotas
-const api = require('./api')
+const api = require('./api');
 
 // process request body
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.use('/', api)
+app.use('/', api);
 app.listen(port, () => {
-  console.log(`escutando app na porta ${port} acesse o link http://localhost:${port}`)
-  mongodb.start()
-  loadData()
-})
+  console.log(`escutando app na porta ${port} acesse o link http://localhost:${port}`);
+  mongodb.start();
+  loadData();
+});
