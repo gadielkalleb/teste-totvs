@@ -1,4 +1,7 @@
+const posts = require('./posts');
+const sobre = require('./sobre');
+
 module.exports = {
-  posts: require('./posts'),
-  sobre: require('./sobre')
-}
+  posts,
+  sobre,
+};
