@@ -1,6 +1,5 @@
 const _async = require('async');
 const { MongoClient } = require('mongodb');
-
 const data = require('../data_json/MOCK_DATA.json');
 
 module.exports = async (db) => {

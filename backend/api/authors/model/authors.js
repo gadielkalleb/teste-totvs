@@ -2,13 +2,9 @@ const mongoose = require('mongoose');
 const { criadoEm } = require('../../../tools/criadoEm');
 
 const AuthorsSchema = new mongoose.Schema({
-  userName: {
+  name: {
     type: String,
     required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
   },
   posts: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -18,6 +14,10 @@ const AuthorsSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'comments',
   }],
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 criadoEm(AuthorsSchema);

@@ -10,14 +10,6 @@ module.exports = Model => ({
         res.status(500).send(`Internal server error - ${req.path}`);
       });
   },
-  getOne: (req, res) => {
-    Model.find({ _id: req.params.id })
-      .then(result => res.send({ result }))
-      .catch((err) => {
-        console.log(err);
-        res.status(500).send(`Internal server error - ${req.path}`);
-      });
-  },
   createOne: (req, res) => {
     if (!req.body) {
       res.status(400).send('wrong request');
@@ -48,11 +40,10 @@ module.exports = Model => ({
   info: (req, res) => {
     Model
       .findOne({ _id: req.params.id })
-      .then(async (r) => {
-        const results = r;
-        const response = await axios.get(`http://www.omdbapi.com/?t=${results.movie_title}&apikey=3d2b356f&plot=full`);
-        results.imdbInfo = response.data;
-        res.status(200).send(results);
+      .then(async (post) => {
+        const results = post;
+        const response = await axios.get(`http://www.omdbapi.com/?t=${post.movie_title}&apikey=3d2b356f&plot=full`);
+        res.status(200).send({ results, IMDb: !response.data ? 'not found movie' : response.data });
       })
       .catch((err) => {
         console.log(err);

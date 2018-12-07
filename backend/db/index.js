@@ -9,10 +9,8 @@ MongooseStart.prototype.start = (db) => {
   return new Promise((resolve, reject) => {
     mongoose.connect(db.url, db.options, (err) => {
       if (err) {
-        console.log('error connect mongoose', err);
         return reject(err);
       }
-      console.log('Succeeded connected to Db!');
       return resolve();
     });
     console.timeEnd('tempo de execução do mongoose');
