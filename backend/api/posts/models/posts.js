@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const moment = require('moment');
+const { criadoEm } = require('../../../tools/criadoEm');
 
 const PostSchema = new mongoose.Schema({
   title: {
@@ -28,10 +28,5 @@ const PostSchema = new mongoose.Schema({
   }],
 });
 
-PostSchema.virtual('criadoEm')
-  .get(function () {
-    return moment(this.createdAt).format('DD-MM-YYYY');
-  });
-
-
+criadoEm(PostSchema);
 module.exports = mongoose.model('posts', PostSchema);

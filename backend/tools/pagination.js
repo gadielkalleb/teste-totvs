@@ -1,5 +1,5 @@
 module.exports = async (model, conditions, params) => {
-  const total = await model.count(conditions);
+  const total = await model.countDocuments(conditions);
   const pageSize = parseInt(params.pageSize) || 10;
   const currentPage = parseInt(params.page) || 0;
   const pagination = {

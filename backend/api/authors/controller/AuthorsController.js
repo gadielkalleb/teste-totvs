@@ -9,7 +9,7 @@ class AuthorsController extends Crud {
     this.jwt = jwt;
   }
 
-  authauthors(req, res) {
+  authAuthors(req, res) {
     this.jwt
       .sign({ name: req.body.name }, jwtSecret)
       .then(token => res.send({ token }));

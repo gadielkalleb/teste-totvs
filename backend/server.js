@@ -19,7 +19,7 @@ app.use(expressSession);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/', api);
+app.use('/api', api);
 
 app.listen(port, () => {
   console.log(`escutando app na porta ${port} acesse o link http://localhost:${port}`);

@@ -1,12 +1,8 @@
 const pagination = require('./pagination');
-
+let Model;
 class Crud {
-  constructor() {
-    this.Model = null;
-  }
-
   getAll(req, res) {
-    pagination(this.Model, {}, req.query)
+    pagination(Model, {}, req.query)
       .then(results => res.send({ results }))
       .catch((err) => {
         console.log(err);

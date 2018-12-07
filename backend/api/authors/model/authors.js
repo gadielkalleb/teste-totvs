@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const moment = require('moment');
+const { criadoEm } = require('../../../tools/criadoEm');
 
 const AuthorsSchema = new mongoose.Schema({
   userName: {
@@ -20,10 +20,6 @@ const AuthorsSchema = new mongoose.Schema({
   }],
 });
 
-AuthorsSchema.virtual('criadoEm')
-  .get(function () {
-    return moment(this.createdAt).format('DD-MM-YYYY');
-  });
-
+criadoEm(AuthorsSchema);
 
 module.exports = mongoose.model('authors', AuthorsSchema);
