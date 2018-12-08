@@ -25,6 +25,6 @@ app.listen(port, () => {
   console.log(`escutando app na porta ${port} acesse o link http://localhost:${port}`);
   mongodb
     .start(db)
-    .then(() => loadData(db))
+    .then(() => console.log('mongodb conectado!!!'))
     .catch(e => console.log(e));
 });

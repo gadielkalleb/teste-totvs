@@ -1,14 +1,18 @@
 const axios = require('axios');
-const pagination = require('../../../tools/pagination');
+const path = require('path');
+
+const pagination = require(path.resolve('./tools/pagination'));
+const backup = require(path.resolve('./data_json/MOCK_DATA.json'));
 
 module.exports = Model => ({
-  getAll: (req, res) => {
-    pagination(Model, {}, req.query)
-      .then(results => res.send({ results }))
-      .catch((err) => {
-        console.log(err);
-        res.status(500).send(`Internal server error - ${req.path}`);
-      });
+  getAll: async (req, res) => {
+    try {
+      const results = await pagination(Model, {}, req.query);
+      res.status(200).send({ results: results.data.length <= 0 ? backup : results });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send(`Internal server error - ${req.path}`);
+    }
   },
   createOne: (req, res) => {
     if (!req.body) {
