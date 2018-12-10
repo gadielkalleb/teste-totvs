@@ -1,4 +1,4 @@
-const router = require('../../tools/router');
+const router = require('./router');
 
 router.get('/', (req, res) => {
   res.render('sobre');

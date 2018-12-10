@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { criadoEm } = require('../../../tools/criadoEm');
+const { criadoEm } = require('../../../tools');
 
 const AuthorsSchema = new mongoose.Schema({
   name: {

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const { criadoEm } = require('../../../tools/criadoEm');
+
+const { criadoEm } = require('../../../tools');
 
 const PostSchema = new mongoose.Schema({
   title: {

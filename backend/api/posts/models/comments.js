@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { criadoEm } = require('../../../tools/criadoEm');
+const { criadoEm } = require('../../../tools');
 
 const CommentsSchema = new mongoose.Schema({
   author: {

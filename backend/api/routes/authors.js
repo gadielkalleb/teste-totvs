@@ -1,4 +1,4 @@
-const router = require('../../tools/router');
+const router = require('./router');
 const authorsController = require('../authors');
 
 router.post('/auth', authorsController.authAuthors);
