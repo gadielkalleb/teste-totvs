@@ -1,8 +1,8 @@
-const express = require('express');
+const router = require('../../tools/router');
 const postsController = require('../posts');
+const authController = require('../../tools/auth');
 
-
-const router = express.Router();
+router.use('/', authController);
 
 router.get('/', postsController.getAll);
 router.get('/:id', postsController.info);

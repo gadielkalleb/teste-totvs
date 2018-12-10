@@ -1,8 +1,5 @@
-const express = require('express');
-
+const router = require('../../tools/router');
 const authorsController = require('../authors');
-
-const router = express.Router();
 
 router.post('/auth', authorsController.authAuthors);
 

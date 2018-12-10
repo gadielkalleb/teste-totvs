@@ -1,6 +1,4 @@
-const { Router } = require('express');
-
-const router = Router();
+const router = require('../../tools/router');
 
 router.get('/', (req, res) => {
   res.render('sobre');
