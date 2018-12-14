@@ -1,80 +1,54 @@
-/* eslint-disable no-param-reassign */
-const path = require('path');
-const { MongoClient, ObjectID } = require('mongodb');
-const { waterfall } = require('async');
-
-const { eachInsert } = require('./');
+const { series, parallel } = require('async');
 
 const mockData = require(path.resolve('./data_json/MOCK_DATA.json'));
 const authorsData = require(path.resolve('./data_json/author.json'));
+const postsData = require(path.resolve('./data_json/author.json'));
+const commentsData = require(path.resolve('./data_json/author.json'));
+
+
+const Author = require('../api/authors/models/authors');
+const Post = require('../api/posts/models/posts');
+const Comment = require('../api/posts/models/comments');
+
+let authors, posts, comments = [];
 
 const erroMsg = 'erro ao fazer o load do backup';
 
-module.exports = (db) => {
-  MongoClient.connect(db.url, db.options).then((mongo) => {
-    const posts = mongo.db('meus-posts').collection('posts');
-    const authors = mongo.db('meus-posts').collection('authors');
-    waterfall([
-      (callback) => {
-        authors.countDocuments({})
-          .then((docs) => {
-            if (docs <= 0) {
-              eachInsert(authorsData, authors, erroMsg);
-              callback(null);
-            }
-          }).catch(err => callback(err));
-      },
-      (callback) => {
-        authors.find({}).toArray((err, dataA) => {
-          if (err) callback(err);
-          posts.find({}).toArray((err, dataPosts) => {
-            if (err) callback(err);
-            if (dataPosts.length <= 0) {
-              dataA.forEach((data) => {
-                mockData.map((md) => {
-                  md.comments.map((mdc) => {
-                    if (md.author === data.name) {
-                      md.author = ObjectID(`${data._id}`);
-                    } else if (mdc.author === data.name) {
-                      mdc.author = ObjectID(`${data._id}`);
-                    }
-                  });
-                });
-              });
-              console.log('backup carregado com sucesso');
-              callback(null, mockData);
-            } else {
-              console.log('não houve necessidade de carregar o backup');
-            }
-          });
-        })
-      },
-    ], (err, mock) => {
-      if (err) console.log(err);
-      eachInsert(mock, posts, erroMsg);
-    });
-  });
+const saveAndShow = (model, array, cb) => {
+  model.save((err) => {
+    if (err) cb(err, null)
+    console.log(`New ${model}`)
+    array.push(model)
+    cb(null, model)
+  })
+}
 
-  // try {
-  //   if (await authors.countDocuments({}) <= 0) {
-  //     eachInsert(authorsData, authors, erroMsg);
-  //   }
-  //   if (await posts.countDocuments({}) <= 0) {
-  //     const dataSync = await authors.find({});
+// const createAuthor = (name, cb) => {
+//   const authorDetails = { name }
+//   const author = new Author(authorDetails)
+//   saveAndShow(author, authors, cb)
+// }
+// const createPost = (title, contentPost, author, movie_title, createdAt, comments, cb) => {
+//   const postDetails = { title, contentPost, author, movie_title, createdAt, comments }
+//   const post = new Post(postDetails)
+//   saveAndShow(post, posts, cb)
+// }
+// const createComments = (author, content, cb) => {
+//   const commentDetails = { author, content }
+//   const comment = new Comment(commentDetails)
+//   saveAndShow(comment, comments, cb)
+// }
 
-  //     mockData.map(md => dataSync.forEach((data) => {
-  //       if (data.name === md.author) {
-  //         tranformNameId(data, md);
-  //       }
-  //       md.comments.forEach((c) => {
-  //         if (data.name === c.author) {
-  //           tranformNameId(data, c);
-  //         }
-  //       });
-  //     }));
-  //     eachInsert(mockData, posts, erroMsg);
-  //   }
-  // } catch (error) {
-  //   console.log(error);
-  // }
+const createModel = (obj, Model, arrayData, cb) => {
+  const modelDetails = obj
+  const model = new Model(modelDetails)
+  saveAndShow(model, arrayData, cb)
+}
+
+const generateData = (cb) => {
+  parallel([])
+}
+
+module.exports = () => {
+
 };
