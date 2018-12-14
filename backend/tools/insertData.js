@@ -45,9 +45,17 @@ const createModel = (obj, Model, arrayData, cb) => {
   saveAndShow(model, arrayData, cb)
 }
 
-const generateData = (cb) => {
-  parallel([])
+// const mountFunction = (dataMock) => {
+// }
+
+const generateAuthorData = (authorMock, cb) => {
+  let arrayOfFunction = []
+  authorMock.forEach(data => {
+    arrayOfFunction.push((callback) => createModel(data, Author, author, callback))
+  });
+  parallel(arrayOfFunction, cb)
 }
+
 
 module.exports = () => {
 
