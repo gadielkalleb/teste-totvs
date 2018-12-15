@@ -1,35 +1,30 @@
 const { series, parallel } = require('async');
 
-const { authorsData, postsData, commentsData } = require('../data_json');
+const { authorsData, postsData, commentsData, mockData } = require('../data_json');
 
 
 const Author = require('../api/authors/models/authors');
-// const Post = require('../api/posts/models/posts');
+const Post = require('../api/posts/models/posts');
 // const Comment = require('../api/posts/models/comments');
 
 // const erroMsg = 'erro ao fazer o load do backup';
 
 const authorsArray = [];
-// const postsArray = [];
+const postsArray = [];
 // const commentsArray = [];
 
 const saveAndShow = (model, array, cb) => {
   model.save((err) => {
-    if (err) cb(err, null);
-    console.log(`New ${model}`);
+    if (err) return cb(err, null);
     array.push(model);
-    cb(null, model);
+    return cb(null, model);
   });
 };
 
 const createModel = (Model, schema) => new Model(schema[Object.keys(schema)]);
 const createAuthor = (schema, cb) => saveAndShow(createModel(Author, { schema }), authorsArray, cb);
+const createPost = (schema, cb) => saveAndShow(createModel(Post, { schema }), postsArray, cb);
 
-// const createPost = (title, contentPost, author, movie_title, createdAt, comments, cb) => {
-//   const postDetails = { title, contentPost, author, movie_title, createdAt, comments };
-//   const post = new Post(postDetails);
-//   saveAndShow(post, postsArray, cb);
-// };
 
 // const createComments = (author, content, cb) => {
 //   const commentDetails = { author, content }
@@ -54,9 +49,21 @@ const generateAuthorData = (cb) => {
   parallel(arrayOfFunction, cb);
 };
 
+const generatePostData = (cb) => {
+  let arrayOfFunction = [];
+  postsData.forEach((data) => {
+    authorsArray.forEach((a) => {
+      data.author = a._id;
+    })
+    arrayOfFunction.push(callback => createPost(data, callback));
+  });
+  parallel(arrayOfFunction, cb);
+};
+
 module.exports = () => {
   series([
     generateAuthorData,
+    generatePostData,
   ], (err, results) => {
     if (err) {
       console.log(err);
