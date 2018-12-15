@@ -1,4 +1,4 @@
 const AuthorsController = require('./controller/AuthorsController');
-const authors = require('./model/authors');
+const authors = require('./models/authors');
 
 module.exports = AuthorsController(authors);
