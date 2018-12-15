@@ -22,11 +22,8 @@ const saveAndShow = (model, array, cb) => {
   });
 };
 
-const createAuthor = (name, cb) => {
-  const authorDetails = { name };
-  const author = new Author(authorDetails);
-  saveAndShow(author, authorsArray, cb);
-};
+const createModel = (Model, schema) => new Model(schema[Object.keys(schema)]);
+const createAuthor = (schema, cb) => saveAndShow(createModel(Author, { schema }), authorsArray, cb);
 
 // const createPost = (title, contentPost, author, movie_title, createdAt, comments, cb) => {
 //   const postDetails = { title, contentPost, author, movie_title, createdAt, comments };
@@ -52,7 +49,7 @@ const createAuthor = (name, cb) => {
 const generateAuthorData = (cb) => {
   let arrayOfFunction = [];
   authorsData.forEach((data) => {
-    arrayOfFunction.push(callback => createAuthor(data.name, callback));
+    arrayOfFunction.push(callback => createAuthor(data, callback));
   });
   parallel(arrayOfFunction, cb);
 };
@@ -64,6 +61,6 @@ module.exports = () => {
     if (err) {
       console.log(err);
     }
-    console.log(results);
+    console.log(results[0][0]);
   });
 };
