@@ -23,10 +23,10 @@ const PostSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  comments: [{
+  comments: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'comments',
-  }],
+  },
 });
 
 criadoEm(PostSchema);

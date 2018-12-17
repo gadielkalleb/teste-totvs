@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
-
 mongoose.Promise = require('bluebird');
 
 function MongooseStart() {}
 
 MongooseStart.prototype.start = db => new Promise((resolve, reject) => {
-  mongoose.connect(db.url, db.options, (err) => {
+  mongoose.connect(db.url, db.options, (err, mongo) => {
     if (err) {
       return reject(err);
     }
